@@ -4672,7 +4672,7 @@ updatebarpos(Monitor *m)
 		#if BAR_PADDING_SMART_PATCH
 		unsigned int n; Client *c;
 		for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-		if (n > 1) {
+		if (n > 1 && m->lt[m->sellt]->arrange != monocle) {
 			y_pad = gappoh;
 			x_pad = gappov;
 		}
