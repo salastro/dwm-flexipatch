@@ -285,6 +285,12 @@
  */
 #define BAR_BORDER_PATCH 0
 
+/* Smart bar border patch that automatically adjusts the bar when there is
+ * only one client on the monitor. Works well with vanitygaps and barborder
+ * patches.
+ */
+#define BAR_BORDER_SMART_PATCH 1
+
 /* This patch centers the WM_NAME of the currently selected window on the status bar.
  * This is compatible with the wintitle, bartabgroups, flexwintitle and awesomebar bar
  * modules.

@@ -4660,6 +4660,7 @@ updatebarpos(Monitor *m)
 	Bar *bar;
 	int y_pad = 0;
 	int x_pad = 0;
+	int barborder = 0;
 	#if BAR_PADDING_VANITYGAPS_PATCH && VANITYGAPS_PATCH
 	#if PERTAG_VANITYGAPS_PATCH && PERTAG_PATCH
 	if (!selmon || selmon->pertag->enablegaps[selmon->pertag->curtag])
@@ -4675,6 +4676,9 @@ updatebarpos(Monitor *m)
 		if (n > 1 && m->lt[m->sellt]->arrange != monocle) {
 			y_pad = gappoh;
 			x_pad = gappov;
+			#if BAR_BORDER_PATCH && BAR_BORDER_SMART_PATCH
+			barborder = (barborderpx ? barborderpx : borderpx);
+			#endif // BAR_BORDER_PATCH | BAR_BORDER_SMART_PATCH
 		}
 		#else
 		y_pad = gappoh;
@@ -4705,6 +4709,10 @@ updatebarpos(Monitor *m)
 	#endif // INSETS_PATCH
 
 	for (bar = m->bar; bar; bar = bar->next) {
+		#if BAR_BORDER_PATCH && BAR_BORDER_SMART_PATCH
+		bar->borderpx = barborder;
+		bar->bh = bh + bar->borderpx * 2;
+		#endif // BAR_BORDER_PATCH | BAR_BORDER_SMART_PATCH
 		bar->bx = m->wx + x_pad;
 		#if BAR_ANYBAR_PATCH && !BAR_ANYBAR_MANAGE_WIDTH_PATCH
 		if (bar->external)
