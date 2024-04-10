@@ -191,6 +191,12 @@ flextitledraw(Monitor *m, Client *c, int unused, int x, int w, int tabscheme, Ar
 		#endif // RENAMED_SCRATCHPADS_PATCH
 		c == selmon->sel && HIDDEN(c)
 		? SchemeHidSel
+		#if STICKY_PATCH && STICKY_INDICATOR_PATCH
+		: c == selmon->sel && c->issticky
+		? SchemeStickySel
+		: c->issticky
+		? SchemeStickyNorm
+		#endif // STICKY_PATCH | STICKY_INDICATOR_PATCH
 		: HIDDEN(c)
 		? SchemeHidNorm
 		: c == selmon->sel
@@ -235,6 +241,11 @@ flextitledraw(Monitor *m, Client *c, int unused, int x, int w, int tabscheme, Ar
 
 	drw_text(drw, tx, a->y, tw, a->h, 0, c->name, 0, False);
 	drawstateindicator(m, c, 1, x + 2, a->y, w, a->h, 0, 0, 0);
+
+	#if STICKY_PATCH && STICKY_INDICATOR_PATCH
+	if (c->issticky)
+		drw_text(drw, x + w - TEXTW("S") - lrpad, a->y, TEXTW("S"), a->h, 0, "S", 0, False);
+	#endif // STICKY_PATCH | STICKY_INDICATOR_PATCH
 
 	if (FLEXWINTITLE_BORDERS) {
 		XSetForeground(drw->dpy, drw->gc, scheme[SchemeSel][ColBorder].pixel);

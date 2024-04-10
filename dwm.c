@@ -187,6 +187,8 @@ enum {
 	SchemeFlexActFloat,
 	SchemeFlexInaFloat,
 	SchemeFlexSelFloat,
+	SchemeStickySel,
+	SchemeStickyNorm,
 	#endif // BAR_FLEXWINTITLE_PATCH
 }; /* color schemes */
 
