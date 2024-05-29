@@ -1181,7 +1181,7 @@
  */
 #define STICKY_PATCH 0
 
-#define STICKY_INDICATOR_PATCH 1
+#define STICKY_INDICATOR_PATCH 0
 
 /* This patch adds "window swallowing" to dwm as known from Plan 9's windowing system rio.
  * Clients marked with isterminal in config.h swallow a window opened by any child process,

@@ -191,12 +191,6 @@ flextitledraw(Monitor *m, Client *c, int unused, int x, int w, int tabscheme, Ar
 		#endif // RENAMED_SCRATCHPADS_PATCH
 		c == selmon->sel && HIDDEN(c)
 		? SchemeHidSel
-		#if STICKY_PATCH && STICKY_INDICATOR_PATCH
-		: c == selmon->sel && c->issticky
-		? SchemeStickySel
-		: c->issticky
-		? SchemeStickyNorm
-		#endif // STICKY_PATCH | STICKY_INDICATOR_PATCH
 		: HIDDEN(c)
 		? SchemeHidNorm
 		: c == selmon->sel
