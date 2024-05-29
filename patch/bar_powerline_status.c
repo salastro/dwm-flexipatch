@@ -20,6 +20,16 @@ width_pwrl_status_es(Bar *bar, BarArg *a)
 	return widthpowerlinestatus(estext);
 	#endif // BAR_STATUSCMD_PATCH
 }
+
+int
+width_pwrl_status_rs(Bar *bar, BarArg *a)
+{
+	#if BAR_STATUSCMD_PATCH
+	return widthpowerlinestatus(rawrstext);
+	#else
+	return widthpowerlinestatus(rstext);
+	#endif // BAR_STATUSCMD_PATCH
+}
 #endif // BAR_EXTRASTATUS_PATCH
 
 int
@@ -40,6 +50,16 @@ draw_pwrl_status_es(Bar *bar, BarArg *a)
 	return drawpowerlinestatus(a->x + a->w, rawestext, a);
 	#else
 	return drawpowerlinestatus(a->x + a->w, estext, a);
+	#endif // BAR_STATUSCMD_PATCH
+}
+
+int
+draw_pwrl_status_rs(Bar *bar, BarArg *a)
+{
+	#if BAR_STATUSCMD_PATCH
+	return drawpowerlinestatus(a->x + a->w, rawrstext, a);
+	#else
+	return drawpowerlinestatus(a->x + a->w, rstext, a);
 	#endif // BAR_STATUSCMD_PATCH
 }
 #endif // BAR_EXTRASTATUS_PATCH
@@ -95,7 +115,14 @@ drawpowerlinestatus(int xpos, char *stext, BarArg *barg)
 				drw_settrans(drw, prevscheme, (nxtscheme = statusscheme[0]));
 			}
 
-			if (bp != '|') {
+			if (bp == '<') {
+				drw_arrow(drw, x - plw, barg->y, plw, barg->h, 0, 0);
+				x -= plw;
+			} else if (bp == '>') {
+				drw_settrans(drw, (nxtscheme = statusscheme[cn]), prevscheme);
+				drw_arrow(drw, x - plw, barg->y, plw, barg->h, 1, 0);
+				x -= plw;
+			} else if (bp != '|') {
 				drw_arrow(drw, x - plw, barg->y, plw, barg->h, bp == '\\' || bp == '>' ? 1 : 0, bp == '<' ? 0 : 1);
 				x -= plw;
 			}

@@ -187,8 +187,6 @@ enum {
 	SchemeFlexActFloat,
 	SchemeFlexInaFloat,
 	SchemeFlexSelFloat,
-	SchemeStickySel,
-	SchemeStickyNorm,
 	#endif // BAR_FLEXWINTITLE_PATCH
 }; /* color schemes */
 
@@ -769,12 +767,15 @@ static char rawstext[512];
 #endif // BAR_EXTRASTATUS_PATCH | BAR_STATUSCMD_PATCH
 #if BAR_EXTRASTATUS_PATCH
 #if BAR_STATUS2D_PATCH && !BAR_STATUSCOLORS_PATCH
-static char estext[1024];
-#else
 static char estext[512];
+static char rstext[512];
+#else
+static char estext[256];
+static char rstext[256];
 #endif // BAR_STATUS2D_PATCH
 #if BAR_STATUSCMD_PATCH
-static char rawestext[1024];
+static char rawestext[512];
+static char rawrstext[512];
 #endif // BAR_STATUS2D_PATCH | BAR_STATUSCMD_PATCH
 #endif // BAR_EXTRASTATUS_PATCH
 
@@ -4948,6 +4949,7 @@ updatestatus(void)
 	if (!gettextprop(root, XA_WM_NAME, rawstext, sizeof(rawstext))) {
 		strcpy(stext, "dwm-"VERSION);
 		estext[0] = '\0';
+		rstext[0] = '\0';
 	} else {
 		char *e = strchr(rawstext, statussep);
 		if (e) {
@@ -4961,6 +4963,12 @@ updatestatus(void)
 		} else {
 			estext[0] = '\0';
 		}
+		char *r = strchr(estext, statussep);
+		if (r) {
+			*r = '\0'; r++;
+			strncpy(rstext, r, sizeof(rstext) - 1);
+		} else
+			rstext[0] = '\0';
 		#if BAR_STATUSCMD_PATCH
 		copyvalidchars(stext, rawstext);
 		#else
